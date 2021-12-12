@@ -3,6 +3,7 @@ using MineSubtitle.Implementation.Parsers;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace MineSubtitle
 {
@@ -34,7 +35,9 @@ namespace MineSubtitle
 
         public List<SubtitleItem> ReadToEnd()
         {
-            return Items;
+            return this.Items
+                .Select(Items => Items.Clone())
+                .ToList();
         }
 
         public void SetOffset(TimeSpan timeSpan)

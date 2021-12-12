@@ -32,5 +32,9 @@ namespace MineSubtitle
             Text = text ?? throw new ArgumentNullException(nameof(text));
         }
 
+        public SubtitleItem Clone()
+        {
+            return new SubtitleItem(this.Index, this.StartTime, this.EndTime, this.Text);
+        }
     }
 }

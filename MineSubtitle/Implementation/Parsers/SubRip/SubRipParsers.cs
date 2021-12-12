@@ -1,6 +1,5 @@
 ﻿using MineSubtitle.Implementation.Exceptions;
 using MineSubtitle.Implementation.Parsers.SubRip;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,7 +18,7 @@ namespace MineSubtitle.Implementation.Parsers
             var srtSubtitleItems = this.ReadLines(reader);
             foreach (var strItem in srtSubtitleItems)
             {
-                var item = strItem.CreateSubtitleItemFromString();
+                var item = strItem.FromSubRipFromString();
                 items.Add(item);
             }
 
