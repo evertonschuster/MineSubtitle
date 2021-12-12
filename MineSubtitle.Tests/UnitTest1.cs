@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using Xunit;
 
@@ -55,7 +56,7 @@ namespace MineSubtitle.Tests
         [Fact]
         public void OpenAndSaveSubtitleFileWithOutReadToEnd_Success()
         {
-            var fileName = $"Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE{DateTimeOffset.UtcNow}.srt";
+            var fileName = $@"{Directory.GetCurrentDirectory()}/Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE{DateTimeOffset.UtcNow.ToString("dd-MMMM-yy-HH-mm-ss-ff")}.srt";
             var provider = SubtitleProvider.CreateSubtitleProvider();
 
             var canOpen = provider.OpenFile("Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE.srt");
@@ -70,7 +71,7 @@ namespace MineSubtitle.Tests
         [Fact]
         public void OpenAndSaveSubtitleFileWithReadToEnd_Success()
         {
-            var fileName = $"Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE{DateTimeOffset.UtcNow}.srt";
+            var fileName = $@"{Directory.GetCurrentDirectory()}/Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE{DateTimeOffset.UtcNow.ToString("dd-MMMM-yy-HH-mm-ss-ff")}.srt";
             var provider = SubtitleProvider.CreateSubtitleProvider();
 
             var canOpen = provider.OpenFile("Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE.srt");
@@ -90,7 +91,7 @@ namespace MineSubtitle.Tests
         public void OpenAndSaveSubtitleFileWithOffset_Success()
         {
             var offset = new TimeSpan(0, 0, 2);
-            var fileName = $"Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE{DateTimeOffset.UtcNow}.srt";
+            var fileName = $"{Directory.GetCurrentDirectory()}/Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE{DateTimeOffset.UtcNow.ToString("dd-MMMM-yy-HH-mm-ss-ff")}.srt";
             var provider = SubtitleProvider.CreateSubtitleProvider();
 
             var canOpen = provider.OpenFile("Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE.srt");
@@ -104,7 +105,7 @@ namespace MineSubtitle.Tests
             Assert.True(canSave, "Não foi possível salvar o arquivo de legenda");
 
 
-            canOpen = provider.OpenFile("Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE.srt");
+            canOpen = provider.OpenFile(fileName);
             Assert.True(canOpen, "Não foi possível localizar o arquivo de legenda");
             var subtitlesWithOffset = provider.ReadToEnd();
 

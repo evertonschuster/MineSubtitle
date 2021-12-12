@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 
 namespace MineSubtitle.Implementation.Parsers.SubRip
 {
@@ -25,6 +26,25 @@ namespace MineSubtitle.Implementation.Parsers.SubRip
             var text = string.Join("\n", textLines);
 
             return new SubtitleItem(index, startTime, endTime, text);
+        }
+
+        public static string FromSubRipFromString(this SubtitleItem item)
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine(item.Index.ToString());
+
+            var timeSpanFormat = @"hh\:mm\:ss\.fff";
+
+            var timeLine = $"{item.StartTime.ToString(timeSpanFormat)} {timeDelemiter[0]} {item.EndTime.ToString(timeSpanFormat)}";
+            stringBuilder.AppendLine(timeLine);
+
+            var textLines = item.Text.Split("\n");
+            foreach (var textLine in textLines)
+            {
+                stringBuilder.AppendLine($" {textLine}");
+            }
+
+            return stringBuilder.ToString();
         }
     }
 }

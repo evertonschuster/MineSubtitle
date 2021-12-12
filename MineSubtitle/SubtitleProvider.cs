@@ -49,9 +49,25 @@ namespace MineSubtitle
             }
         }
 
-        public bool Save(string file)
+        public bool Save(string filePath)
         {
-            throw new NotImplementedException();
+            var path = Path.Combine(filePath, "..");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            using var stream = File.Create(filePath);
+            if (!stream.CanRead || !stream.CanSeek)
+            {
+                return false;
+            }
+
+            this.Parser.WriteItems(stream, this.Items);
+            stream.Flush();
+            stream.Close();
+
+            return true;
         }
 
         public void Dispose()

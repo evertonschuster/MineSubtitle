@@ -2,17 +2,17 @@
 using MineSubtitle.Implementation.Parsers.SubRip;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace MineSubtitle.Implementation.Parsers
 {
     public class SubRipParsers : ISubtitlesParser
     {
+        #region Read file
         public List<SubtitleItem> ParseStream(Stream stream)
         {
             stream.Position = 0;
-            var reader = new StreamReader(stream, Encoding.UTF8, true);
+            var reader = new StreamReader(stream, true);
             var items = new List<SubtitleItem>();
 
             var srtSubtitleItems = this.ReadLines(reader);
@@ -22,14 +22,13 @@ namespace MineSubtitle.Implementation.Parsers
                 items.Add(item);
             }
 
-            if (!items.Any())
+            if (items.Count == 0)
             {
                 throw new NotContentFoundException();
             }
 
             return items;
         }
-
 
         private IEnumerable<string> ReadLines(StreamReader reader)
         {
@@ -59,6 +58,23 @@ namespace MineSubtitle.Implementation.Parsers
                 yield return sb.ToString();
             }
         }
+
+        #endregion
+
+        #region Write file
+        public void WriteItems(Stream stream, List<SubtitleItem> items)
+        {
+            var writer = new StreamWriter(stream);
+
+            foreach (var item in items)
+            {
+                var strItem = item.FromSubRipFromString();
+                writer.WriteLine(strItem);
+            }
+
+            writer.Flush();
+        }
+        #endregion
 
     }
 }
