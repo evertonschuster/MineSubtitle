@@ -1,16 +1,18 @@
 ﻿using MineSubtitle.Implementation.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace MineSubtitle.Implementation.Parsers
 {
     public class SubRipParsers : ISubtitlesParser
     {
-        private static readonly string[] timeDelemiter = { "-->" };
-
+        private static readonly string[] _timeDelemiter = { "-->" };
+        private static readonly string _decimalSeparator = new CultureInfo("fr-FR").NumberFormat.NumberDecimalSeparator;
 
         #region Read file
 
@@ -74,7 +76,7 @@ namespace MineSubtitle.Implementation.Parsers
             var index = int.Parse(lines[0]);
 
             var timeLine = lines[1];
-            var partsParts = timeLine.Split(timeDelemiter, StringSplitOptions.None);
+            var partsParts = timeLine.Split(_timeDelemiter, StringSplitOptions.None);
             var startTime = TimeSpan.Parse(partsParts[0]);
             var endTime = TimeSpan.Parse(partsParts[1]);
 
@@ -105,21 +107,22 @@ namespace MineSubtitle.Implementation.Parsers
         public string ParceSubtitleItemToString(SubtitleItem item)
         {
             var stringBuilder = new StringBuilder();
+
             stringBuilder.AppendLine(item.Index.ToString());
 
-            var timeSpanFormat = @"hh\:mm\:ss\.fff";
-
-            var timeLine = $"{item.StartTime.ToString(timeSpanFormat)} {timeDelemiter[0]} {item.EndTime.ToString(timeSpanFormat)}";
+            var timeSpanFormat = @$"hh\:mm\:ss\{_decimalSeparator}fff";
+            var timeLine = $"{item.StartTime.ToString(timeSpanFormat)} {_timeDelemiter[0]} {item.EndTime.ToString(timeSpanFormat)}";
             stringBuilder.AppendLine(timeLine);
 
             var textLines = item.Text.Split("\n");
             foreach (var textLine in textLines)
             {
-                stringBuilder.AppendLine($" {textLine}");
+                stringBuilder.AppendLine($"{textLine}");
             }
 
             return stringBuilder.ToString();
         }
+
         #endregion
 
     }

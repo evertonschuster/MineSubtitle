@@ -27,6 +27,9 @@
     <None Update="Files\Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE.srt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Files\Fast.and.Furious.F9.The.Fast.Saga.2021.1080p.WEBRip.x265.srt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

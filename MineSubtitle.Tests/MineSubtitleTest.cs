@@ -1,18 +1,31 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Xunit;
 
 namespace MineSubtitle.Tests
 {
-    public class UnitTest1
+    public class MineSubtitleTest
     {
-        [Fact]
-        public void OpenSubtitleFile_Success()
+        const string CaseChildrenOfMen = "Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE.srt";
+        const string CaseFastAndFurious = "Files/Fast.and.Furious.F9.The.Fast.Saga.2021.1080p.WEBRip.x265.srt";
+
+        public MineSubtitleTest()
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+        }
+
+
+        [Theory]
+        [InlineData(CaseChildrenOfMen)]
+        [InlineData(CaseFastAndFurious)]
+        public void OpenSubtitleFile_Success(string path)
         {
             var provider = SubtitleProvider.CreateSubtitleProvider();
 
-            var canOpen = provider.OpenFile("Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE.srt");
+            var canOpen = provider.OpenFile(path);
             Assert.True(canOpen, "Não foi possível localizar o arquivo de legenda");
 
 
@@ -23,13 +36,15 @@ namespace MineSubtitle.Tests
             provider.Dispose();
         }
 
-        [Fact]
-        public void SetOffset_Success()
+        [Theory]
+        [InlineData(CaseChildrenOfMen)]
+        [InlineData(CaseFastAndFurious)]
+        public void SetOffset_Success(string path)
         {
             var offset = new TimeSpan(0, 0, 2);
             var provider = SubtitleProvider.CreateSubtitleProvider();
 
-            var canOpen = provider.OpenFile("Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE.srt");
+            var canOpen = provider.OpenFile(path);
             Assert.True(canOpen, "Não foi possível localizar o arquivo de legenda");
 
             var subtitles = provider.ReadToEnd();
@@ -53,13 +68,15 @@ namespace MineSubtitle.Tests
             provider.Dispose();
         }
 
-        [Fact]
-        public void OpenAndSaveSubtitleFileWithOutReadToEnd_Success()
+        [Theory]
+        [InlineData(CaseChildrenOfMen)]
+        [InlineData(CaseFastAndFurious)]
+        public void OpenAndSaveSubtitleFileWithOutReadToEnd_Success(string path)
         {
-            var fileName = $@"{Directory.GetCurrentDirectory()}/Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE{DateTimeOffset.UtcNow.ToString("dd-MMMM-yy-HH-mm-ss-ff")}.srt";
+            var fileName = Path.Combine(Directory.GetCurrentDirectory(), Path.GetDirectoryName(path), $"{DateTimeOffset.UtcNow.ToString("dd-MMMM-yy-HH-mm-ss-ff")}-{Path.GetFileName(path)}");
             var provider = SubtitleProvider.CreateSubtitleProvider();
 
-            var canOpen = provider.OpenFile("Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE.srt");
+            var canOpen = provider.OpenFile(path);
             Assert.True(canOpen, "Não foi possível localizar o arquivo de legenda");
             var canSave = provider.SaveFile(fileName);
             Assert.True(canSave, "Não foi possível salvar o arquivo de legenda");
@@ -68,13 +85,15 @@ namespace MineSubtitle.Tests
             provider.Dispose();
         }
 
-        [Fact]
-        public void OpenAndSaveSubtitleFileWithReadToEnd_Success()
+        [Theory]
+        [InlineData(CaseChildrenOfMen)]
+        [InlineData(CaseFastAndFurious)]
+        public void OpenAndSaveSubtitleFileWithReadToEnd_Success(string path)
         {
-            var fileName = $@"{Directory.GetCurrentDirectory()}/Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE{DateTimeOffset.UtcNow.ToString("dd-MMMM-yy-HH-mm-ss-ff")}.srt";
+            var fileName = Path.Combine(Directory.GetCurrentDirectory(), Path.GetDirectoryName(path), $"{DateTimeOffset.UtcNow.ToString("dd-MMMM-yy-HH-mm-ss-ff")}-{Path.GetFileName(path)}");
             var provider = SubtitleProvider.CreateSubtitleProvider();
 
-            var canOpen = provider.OpenFile("Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE.srt");
+            var canOpen = provider.OpenFile(path);
             Assert.True(canOpen, "Não foi possível localizar o arquivo de legenda");
 
 
@@ -87,14 +106,16 @@ namespace MineSubtitle.Tests
             provider.Dispose();
         }
 
-        [Fact]
-        public void OpenAndSaveSubtitleFileWithOffset_Success()
+        [Theory]
+        [InlineData(CaseChildrenOfMen)]
+        [InlineData(CaseFastAndFurious)]
+        public void OpenAndSaveSubtitleFileWithOffset_Success(string path)
         {
             var offset = new TimeSpan(0, 0, 2);
-            var fileName = $"{Directory.GetCurrentDirectory()}/Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE{DateTimeOffset.UtcNow.ToString("dd-MMMM-yy-HH-mm-ss-ff")}.srt";
+            var fileName = Path.Combine(Directory.GetCurrentDirectory(), Path.GetDirectoryName(path), $"{DateTimeOffset.UtcNow.ToString("dd-MMMM-yy-HH-mm-ss-ff")}-{Path.GetFileName(path)}");
             var provider = SubtitleProvider.CreateSubtitleProvider();
 
-            var canOpen = provider.OpenFile("Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE.srt");
+            var canOpen = provider.OpenFile(path);
             Assert.True(canOpen, "Não foi possível localizar o arquivo de legenda");
 
 
