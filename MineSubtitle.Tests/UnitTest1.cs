@@ -61,7 +61,7 @@ namespace MineSubtitle.Tests
 
             var canOpen = provider.OpenFile("Files/Children.of.Men.2006.DVD5.720p.HDDVD.x264-REVEiLLE.srt");
             Assert.True(canOpen, "Não foi possível localizar o arquivo de legenda");
-            var canSave = provider.Save(fileName);
+            var canSave = provider.SaveFile(fileName);
             Assert.True(canSave, "Não foi possível salvar o arquivo de legenda");
 
 
@@ -81,7 +81,7 @@ namespace MineSubtitle.Tests
             var subtitles = provider.ReadToEnd();
             Assert.NotEmpty(subtitles);
 
-            var canSave = provider.Save(fileName);
+            var canSave = provider.SaveFile(fileName);
             Assert.True(canSave, "Não foi possível salvar o arquivo de legenda");
 
             provider.Dispose();
@@ -101,7 +101,7 @@ namespace MineSubtitle.Tests
             var subtitles = provider.ReadToEnd();
             Assert.NotEmpty(subtitles);
             provider.SetOffset(offset);
-            var canSave = provider.Save(fileName);
+            var canSave = provider.SaveFile(fileName);
             Assert.True(canSave, "Não foi possível salvar o arquivo de legenda");
 
 

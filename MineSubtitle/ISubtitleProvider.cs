@@ -29,6 +29,6 @@ namespace MineSubtitle
         /// </summary>
         /// <param name="filePath">Subtitle file path</param>
         /// <returns>Success save Subtitle file</returns>
-        bool Save(string filePath);
+        bool SaveFile(string filePath);
     }
 }

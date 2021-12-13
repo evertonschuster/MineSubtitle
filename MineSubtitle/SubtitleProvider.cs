@@ -28,7 +28,7 @@ namespace MineSubtitle
                 return false;
             }
 
-            this.Items = this.Parser.ParseStream(stream);
+            this.Items = this.Parser.ReadStreamItems(stream);
 
             return true;
         }
@@ -49,7 +49,7 @@ namespace MineSubtitle
             }
         }
 
-        public bool Save(string filePath)
+        public bool SaveFile(string filePath)
         {
             var path = Path.Combine(filePath, "..");
             if (!Directory.Exists(path))
@@ -63,9 +63,8 @@ namespace MineSubtitle
                 return false;
             }
 
-            this.Parser.WriteItems(stream, this.Items);
+            this.Parser.WriteStreamItems(stream, this.Items);
             stream.Flush();
-            stream.Close();
 
             return true;
         }
